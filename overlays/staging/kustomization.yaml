@@ -1,0 +1,18 @@
+namespace: myapp
+resources:
+  - ../../base
+  - ../../secrets
+patches:
+  - path: nginxhello-deployment-patch.yaml
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: nginxhello
+    path: nginxhello-ingress-patch.yaml
+configMapGenerator:
+  - name: app-config
+    behavior: merge
+    literals:
+      - ENV="dev"
+      - COLOR="Red"

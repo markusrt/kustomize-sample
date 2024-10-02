@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginxhello
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: nginxhello
+        image: docker.io/nbrown/nginxhello:1.19.0
