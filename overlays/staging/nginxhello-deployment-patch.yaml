@@ -7,5 +7,5 @@ spec:
   template:
     spec:
       containers:
-      - name: nginxhello
-        image: docker.io/nbrown/nginxhello:1.19.0
+        - name: nginxhello
+          image: my-image-name:v1.0.2410.0909
