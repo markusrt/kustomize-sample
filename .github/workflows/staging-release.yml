@@ -26,6 +26,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set the version
         run: echo "version=v$(date +'%y%m.%d%H')" >> "$GITHUB_ENV"
       - name: Update image tag
