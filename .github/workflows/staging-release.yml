@@ -26,8 +26,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        #with:
+        #  token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set the version
         run: echo "version=v$(date +'%y%m.%d%H')" >> "$GITHUB_ENV"
       - name: Update image tag
@@ -41,4 +41,7 @@ jobs:
           git checkout -b "release/$version"
           git add *
           git commit -m "Release version $version"
-          git push --set-upstream origin "release/$version"
+      - name: Create pull request
+        run: gh pr create -B "release/$version" -H main --title "Merge release/$version into main" --body "Release version $version"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
