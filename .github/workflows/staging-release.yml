@@ -2,8 +2,6 @@
 
 name: CI
 
-env:
-  VERSION: "v$(date +%s)"
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -27,7 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - name: Set the version
-        run: echo "version=v$(date +'%y%m.%d%H')" >> "$GITHUB_ENV"
+        run: echo "version=v1.0.$(date +'%y%m.%d%H')" >> "$GITHUB_ENV"
       - name: Update image tag
         run: |
           yq e -i ".spec.template.spec.containers[0].image = \"my-image-name:$version\"" overlays/staging/nginxhello-deployment-patch.yaml
