@@ -39,4 +39,4 @@ jobs:
           git checkout -b "release/$version"
           git add *
           git commit -m "Release version $version"
-          git push
+          git push --set-upstream origin "release/$version"
