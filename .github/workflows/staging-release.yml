@@ -37,6 +37,7 @@ jobs:
           git checkout -b "release/$version"
           git add *
           git commit -m "Release version $version"
+          git push --set-upstream origin "release/$version"
       - name: Create pull request
         run: gh pr create -B "release/$version" -H main --title "Merge release/$version into main" --body "Release version $version"
         env:
