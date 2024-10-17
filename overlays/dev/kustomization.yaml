@@ -1,17 +1,47 @@
 namespace: myapp
+
 resources:
 - ../../base
 - ../../secrets
-patches:
-- path: nginxhello-deployment-patch.yaml
-- target:
-    group: networking.k8s.io
-    version: v1
-    kind: Ingress
-    name: nginxhello
-  path: nginxhello-ingress-patch.yaml
+
+components:
+- ../../components/add-security-context
+
 configMapGenerator:
 - name: app-config
   behavior: merge
   literals:
   - ENV="dev"
+
+patches:
+- path: nginxhello-deployment-patch.yaml
+- path: nginxhello-ingress-patch.yaml
+  target:
+    group: networking.k8s.io
+    version: v1
+    kind: Ingress
+    name: nginxhello
+
+## Cleanup required for components/add-security-context
+- patch: |-
+    $patch: delete
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: security-context
+- target:
+    version: v1
+    group: apps
+    kind: (Deployment|StatefulSet)
+  patch: |-
+    apiVersion: apps/v1
+    kind: not-used
+    metadata:
+      name: not-used
+    spec:
+      template:
+        spec:
+          initContainers:
+          - name: ^.+$
+            $patch: delete
+  

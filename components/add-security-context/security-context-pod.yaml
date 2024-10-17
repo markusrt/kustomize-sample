@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context
+spec:
+  containers:
+  - image: image
+    name: security-context
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      seccompProfile:
+        type: "RuntimeDefault"
+      capabilities:
+        drop: 
+        - ALL
