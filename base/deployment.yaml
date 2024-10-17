@@ -14,6 +14,21 @@ spec:
       labels:
         app: nginxhello
     spec:
+      dnsPolicy: Default
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      initContainers:
+      - name: install
+        image: busybox:1.28
+        command:
+        - wget
+        - "-O"
+        - "/work-dir/index.html"
+        - http://info.cern.ch
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
       containers:
       - image: docker.io/nbrown/nginxhello:1.19.0
         resources:
